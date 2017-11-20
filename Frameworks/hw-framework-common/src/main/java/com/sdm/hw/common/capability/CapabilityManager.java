@@ -88,10 +88,7 @@ public final class CapabilityManager {
 //        trigger.start();
 
 
-        try {
-
-        }
-        XMLConfiguration config = loadConfigFile()
+        getConfig();
 
 //        LOGGER.logWarn(CAPABILITY_CONFIG_FILE + " from the following classpath will be loaded and checked every "
 //                + CONFIG_TRIGGER_PERIOD + " " + CONFIG_TRIGGER_UNIT + " for any change.");
@@ -130,8 +127,16 @@ public final class CapabilityManager {
 
         return config;
     }
-    private XMLConfiguration getConfig(){
+    private XMLConfiguration getConfig() {
+        XMLConfiguration config = null;
 
+        try {
+            config = loadConfigFile();
+
+        } catch (ConfigurationException cEx){
+            LOGGER.logError(cEx.toString(), cEx);
+        }
+        return config;
     }
 //    private XMLConfiguration getConfig() {
 //        XMLConfiguration config = null;
