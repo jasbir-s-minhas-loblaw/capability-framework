@@ -2,16 +2,19 @@ package com.sdm.hw.common.capability;
 
 import com.sdm.hw.logging.services.LogManager;
 import com.sdm.hw.logging.intf.HwLogger;
-import org.apache.commons.configuration2.XMLConfiguration;
-import org.apache.commons.configuration2.builder.ConfigurationBuilderEvent;
-import org.apache.commons.configuration2.builder.ReloadingFileBasedConfigurationBuilder;
-import org.apache.commons.configuration2.builder.fluent.Parameters;
-import org.apache.commons.configuration2.event.EventListener;
-import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.apache.commons.configuration2.io.*;
-import org.apache.commons.configuration2.reloading.PeriodicReloadingTrigger;
-import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
-
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
+import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
+//import org.apache.commons.configuration2.XMLConfiguration;
+//import org.apache.commons.configuration2.builder.ConfigurationBuilderEvent;
+//import org.apache.commons.configuration2.builder.ReloadingFileBasedConfigurationBuilder;
+//import org.apache.commons.configuration2.builder.fluent.Parameters;
+//import org.apache.commons.configuration2.event.EventListener;
+//import org.apache.commons.configuration2.ex.ConfigurationException;
+//import org.apache.commons.configuration2.io.*;
+//import org.apache.commons.configuration2.reloading.PeriodicReloadingTrigger;
+//import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
@@ -46,7 +49,7 @@ public final class CapabilityManager {
     private static final int CONFIG_RETRY_INTERVAL = 30;
 
     private String curProvinceCode;
-    private ReloadingFileBasedConfigurationBuilder<XMLConfiguration> builder = null;
+//    private ReloadingFileBasedConfigurationBuilder<XMLConfiguration> builder = null;
     private CapabilityCache capabilityCache = new CapabilityCache();
 
     private static final HwLogger LOGGER = LogManager.getLogger(CapabilityManager.class);
@@ -67,25 +70,31 @@ public final class CapabilityManager {
 
     private void initConfig() {
         loadCurProvinceCode();
+//
+//        FileLocationStrategy strategy = new ClasspathLocationStrategy();
+//
+//        Parameters params = new Parameters();
+//        builder = new ReloadingFileBasedConfigurationBuilder<>(XMLConfiguration.class)
+//                .configure(params.xml()
+//                        .setLocationStrategy(strategy)
+//                        .setFileName(CAPABILITY_CONFIG_FILE)
+//                        // Following will throw an Exception if the XML document does not
+//                        // conform to its schema.
+//                        .setSchemaValidation(true)
+//                        .setExpressionEngine(new XPathExpressionEngine()));
+//
+//        PeriodicReloadingTrigger trigger = new PeriodicReloadingTrigger(builder.getReloadingController(),
+//                null, CONFIG_TRIGGER_PERIOD, CONFIG_TRIGGER_UNIT);
+//        trigger.start();
 
-        FileLocationStrategy strategy = new ClasspathLocationStrategy();
 
-        Parameters params = new Parameters();
-        builder = new ReloadingFileBasedConfigurationBuilder<>(XMLConfiguration.class)
-                .configure(params.xml()
-                        .setLocationStrategy(strategy)
-                        .setFileName(CAPABILITY_CONFIG_FILE)
-                        // Following will throw an Exception if the XML document does not
-                        // conform to its schema.
-                        .setSchemaValidation(true)
-                        .setExpressionEngine(new XPathExpressionEngine()));
+        try {
 
-        PeriodicReloadingTrigger trigger = new PeriodicReloadingTrigger(builder.getReloadingController(),
-                null, CONFIG_TRIGGER_PERIOD, CONFIG_TRIGGER_UNIT);
-        trigger.start();
+        }
+        XMLConfiguration config = loadConfigFile()
 
-        LOGGER.logWarn(CAPABILITY_CONFIG_FILE + " from the following classpath will be loaded and checked every "
-                + CONFIG_TRIGGER_PERIOD + " " + CONFIG_TRIGGER_UNIT + " for any change.");
+//        LOGGER.logWarn(CAPABILITY_CONFIG_FILE + " from the following classpath will be loaded and checked every "
+//                + CONFIG_TRIGGER_PERIOD + " " + CONFIG_TRIGGER_UNIT + " for any change.");
 
         ClassLoader cl = ClassLoader.getSystemClassLoader();
         URL[] urls = ((URLClassLoader)cl).getURLs();
@@ -94,45 +103,63 @@ public final class CapabilityManager {
         }
 
         // Register an even listener to handle change in the configuration.
-        builder.addEventListener(ConfigurationBuilderEvent.RESET, new EventListener<ConfigurationBuilderEvent>() {
-            public void onEvent(ConfigurationBuilderEvent event) {
-                LOGGER.logWarn("Event:" + event);
-                LOGGER.logWarn("Reloading capability config :\n\t" + builder.getFileHandler().getFile().getAbsolutePath());
-                // Clear cache when configuration file changed.
-                clearCache();
-                getConfig().setExpressionEngine(new XPathExpressionEngine());
-                getConfig().setSchemaValidation(true);
-            }
-        });
+//        builder.addEventListener(ConfigurationBuilderEvent.RESET, new EventListener<ConfigurationBuilderEvent>() {
+//            public void onEvent(ConfigurationBuilderEvent event) {
+//                LOGGER.logWarn("Event:" + event);
+//                LOGGER.logWarn("Reloading capability config :\n\t" + builder.getFileHandler().getFile().getAbsolutePath());
+//                // Clear cache when configuration file changed.
+//                clearCache();
+//                getConfig().setExpressionEngine(new XPathExpressionEngine());
+//                getConfig().setSchemaValidation(true);
+//            }
+//        });
     }
 
-    private XMLConfiguration getConfig() {
+    private XMLConfiguration loadConfigFile() throws ConfigurationException {
         XMLConfiguration config = null;
-        // keep trying to get the configuration if the configuration is returned null by the builder
-        // this situation can occur when there are validation issues with the configuration.
-        while (config == null) {
-            try {
-                config = builder.getConfiguration();
-            } catch (ConfigurationException conEx) {
-                LOGGER.logError(conEx.getMessage(), conEx);
-                clearCache();
-            } catch (Exception ex) {
-                LOGGER.logError(ex.getMessage(), ex);
-                reset();
-            } finally {
-                if (config == null) {
-                    LOGGER.logWarn("... correct the configuration file and make sure it is validated" +
-                            " against the schema. System will retry in " + CONFIG_RETRY_INTERVAL + " seconds.");
-                    try {
-                        TimeUnit.SECONDS.sleep(CONFIG_RETRY_INTERVAL);
-                    } catch (InterruptedException ex) {
-                        LOGGER.logError(ex.getMessage(), ex);
-                    }
-                }
-            }
-        }
+        config = new XMLConfiguration(CAPABILITY_CONFIG_FILE);
+        config.setSchemaValidation(true);
+        FileChangedReloadingStrategy strategy = new FileChangedReloadingStrategy();
+        LOGGER.logWarn(CAPABILITY_CONFIG_FILE + " from the following classpath will be loaded and checked every "
+                + CONFIG_TRIGGER_PERIOD + " " + CONFIG_TRIGGER_UNIT + " for any change.");
+        strategy.setRefreshDelay(CONFIG_TRIGGER_UNIT.toMillis(CONFIG_TRIGGER_PERIOD));
+        config.setReloadingStrategy(strategy);
+        // This will throw a ConfigurationException if the XML document does not
+        // conform to its Schema.
+        config.load();
+
         return config;
     }
+    private XMLConfiguration getConfig(){
+
+    }
+//    private XMLConfiguration getConfig() {
+//        XMLConfiguration config = null;
+//        // keep trying to get the configuration if the configuration is returned null by the builder
+//        // this situation can occur when there are validation issues with the configuration.
+//        while (config == null) {
+//            try {
+//                config = builder.getConfiguration();
+//            } catch (ConfigurationException conEx) {
+//                LOGGER.logError(conEx.getMessage(), conEx);
+//                clearCache();
+//            } catch (Exception ex) {
+//                LOGGER.logError(ex.getMessage(), ex);
+//                reset();
+//            } finally {
+//                if (config == null) {
+//                    LOGGER.logWarn("... correct the configuration file and make sure it is validated" +
+//                            " against the schema. System will retry in " + CONFIG_RETRY_INTERVAL + " seconds.");
+//                    try {
+//                        TimeUnit.SECONDS.sleep(CONFIG_RETRY_INTERVAL);
+//                    } catch (InterruptedException ex) {
+//                        LOGGER.logError(ex.getMessage(), ex);
+//                    }
+//                }
+//            }
+//        }
+//        return config;
+//    }
 
     private void loadCurProvinceCode() {
         curProvinceCode = ProvinceCodeProvider.getInstance().getCurrentProvinceCode().toString();
