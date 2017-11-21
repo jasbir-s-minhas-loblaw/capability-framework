@@ -16,13 +16,6 @@ public class CapabilityMangerTester {
     private static final Logger LOGGER = Logger.getLogger(CapabilityMangerTester.class.getName());
 
     public static void main(String[] args) throws Exception {
-        ClassLoader cl = ClassLoader.getSystemClassLoader();
-
-        URL[] urls = ((URLClassLoader) cl).getURLs();
-
-        for (URL url : urls) {
-            System.out.println(url.getFile());
-        }
         test();
     }
 
@@ -32,8 +25,10 @@ public class CapabilityMangerTester {
 
         while (true) {
             try {
-                TimeUnit.SECONDS.sleep(2);
-                LOGGER.info(System.currentTimeMillis() + " : " + CapabilityBooleanKey.ALLERGY_STATUS.isEnabled());
+                TimeUnit.SECONDS.sleep(5);
+                LOGGER.info(System.currentTimeMillis() + " : "
+                        + "Value of " + CapabilityBooleanKey.ALLERGY_STATUS + " : "
+                        + CapabilityBooleanKey.ALLERGY_STATUS.isEnabled());
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, ex.toString(), ex);
             }

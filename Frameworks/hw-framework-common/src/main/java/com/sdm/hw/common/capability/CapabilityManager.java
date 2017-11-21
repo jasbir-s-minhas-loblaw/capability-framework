@@ -1,25 +1,16 @@
 package com.sdm.hw.common.capability;
 
-import com.sdm.hw.logging.services.LogManager;
 import com.sdm.hw.logging.intf.HwLogger;
-import org.apache.commons.configuration.ConfigurationException;
+import com.sdm.hw.logging.services.LogManager;
 import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.event.ConfigurationEvent;
+import org.apache.commons.configuration.event.ConfigurationListener;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
-//import org.apache.commons.configuration2.XMLConfiguration;
-//import org.apache.commons.configuration2.builder.ConfigurationBuilderEvent;
-//import org.apache.commons.configuration2.builder.ReloadingFileBasedConfigurationBuilder;
-//import org.apache.commons.configuration2.builder.fluent.Parameters;
-//import org.apache.commons.configuration2.event.EventListener;
-//import org.apache.commons.configuration2.ex.ConfigurationException;
-//import org.apache.commons.configuration2.io.*;
-//import org.apache.commons.configuration2.reloading.PeriodicReloadingTrigger;
-//import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
+
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -33,8 +24,6 @@ import java.util.regex.Pattern;
  * @since 2017-11-07
  */
 public final class CapabilityManager {
-    // Singleton Class initialization
-    private static volatile CapabilityManager _instance = null;
     private static final String CAPABILITY_CONFIG_FILE = "capability.xml";
     // Following tokens are used for building XPath for a capability.
     private static final String XPATH_PREFIX = "capabilityGroup[@name='";
@@ -44,15 +33,15 @@ public final class CapabilityManager {
     private static final String CAPABILITY_NAME_TAG = "capability[@name='";
     private static final String VALUE_TAG = "value[@code='";
     private static final boolean ENABLE_LOCAL_CACHE = true;
-    private static final int CONFIG_TRIGGER_PERIOD = 30;
+    private static final int CONFIG_TRIGGER_PERIOD = 10;
     private static final TimeUnit CONFIG_TRIGGER_UNIT = TimeUnit.SECONDS;
-    private static final int CONFIG_RETRY_INTERVAL = 30;
-
-    private String curProvinceCode;
-//    private ReloadingFileBasedConfigurationBuilder<XMLConfiguration> builder = null;
-    private CapabilityCache capabilityCache = new CapabilityCache();
-
+    private static final int CONFIG_RETRY_INTERVAL = 10;
     private static final HwLogger LOGGER = LogManager.getLogger(CapabilityManager.class);
+    // Singleton Class initialization
+    private static volatile CapabilityManager _instance = null;
+    private String curProvinceCode;
+    private XMLConfiguration xmlConfiguration = null;
+    private CapabilityCache capabilityCache = new CapabilityCache();
 
     /**
      * Private constructor for singleton
@@ -63,111 +52,9 @@ public final class CapabilityManager {
     public static synchronized CapabilityManager getInstance() {
         if (_instance == null) {
             _instance = new CapabilityManager();
-            _instance.initConfig();
+            _instance.getConfig();
         }
         return _instance;
-    }
-
-    private void initConfig() {
-        loadCurProvinceCode();
-//
-//        FileLocationStrategy strategy = new ClasspathLocationStrategy();
-//
-//        Parameters params = new Parameters();
-//        builder = new ReloadingFileBasedConfigurationBuilder<>(XMLConfiguration.class)
-//                .configure(params.xml()
-//                        .setLocationStrategy(strategy)
-//                        .setFileName(CAPABILITY_CONFIG_FILE)
-//                        // Following will throw an Exception if the XML document does not
-//                        // conform to its schema.
-//                        .setSchemaValidation(true)
-//                        .setExpressionEngine(new XPathExpressionEngine()));
-//
-//        PeriodicReloadingTrigger trigger = new PeriodicReloadingTrigger(builder.getReloadingController(),
-//                null, CONFIG_TRIGGER_PERIOD, CONFIG_TRIGGER_UNIT);
-//        trigger.start();
-
-
-        getConfig();
-
-//        LOGGER.logWarn(CAPABILITY_CONFIG_FILE + " from the following classpath will be loaded and checked every "
-//                + CONFIG_TRIGGER_PERIOD + " " + CONFIG_TRIGGER_UNIT + " for any change.");
-
-        ClassLoader cl = ClassLoader.getSystemClassLoader();
-        URL[] urls = ((URLClassLoader)cl).getURLs();
-        for(URL url: urls){
-            LOGGER.logWarn(url.getFile());
-        }
-
-        // Register an even listener to handle change in the configuration.
-//        builder.addEventListener(ConfigurationBuilderEvent.RESET, new EventListener<ConfigurationBuilderEvent>() {
-//            public void onEvent(ConfigurationBuilderEvent event) {
-//                LOGGER.logWarn("Event:" + event);
-//                LOGGER.logWarn("Reloading capability config :\n\t" + builder.getFileHandler().getFile().getAbsolutePath());
-//                // Clear cache when configuration file changed.
-//                clearCache();
-//                getConfig().setExpressionEngine(new XPathExpressionEngine());
-//                getConfig().setSchemaValidation(true);
-//            }
-//        });
-    }
-
-    private XMLConfiguration loadConfigFile() throws ConfigurationException {
-        XMLConfiguration config = null;
-        config = new XMLConfiguration(CAPABILITY_CONFIG_FILE);
-        config.setSchemaValidation(true);
-        FileChangedReloadingStrategy strategy = new FileChangedReloadingStrategy();
-        LOGGER.logWarn(CAPABILITY_CONFIG_FILE + " from the following classpath will be loaded and checked every "
-                + CONFIG_TRIGGER_PERIOD + " " + CONFIG_TRIGGER_UNIT + " for any change.");
-        strategy.setRefreshDelay(CONFIG_TRIGGER_UNIT.toMillis(CONFIG_TRIGGER_PERIOD));
-        config.setReloadingStrategy(strategy);
-        // This will throw a ConfigurationException if the XML document does not
-        // conform to its Schema.
-        config.load();
-
-        return config;
-    }
-    private XMLConfiguration getConfig() {
-        XMLConfiguration config = null;
-
-        try {
-            config = loadConfigFile();
-
-        } catch (ConfigurationException cEx){
-            LOGGER.logError(cEx.toString(), cEx);
-        }
-        return config;
-    }
-//    private XMLConfiguration getConfig() {
-//        XMLConfiguration config = null;
-//        // keep trying to get the configuration if the configuration is returned null by the builder
-//        // this situation can occur when there are validation issues with the configuration.
-//        while (config == null) {
-//            try {
-//                config = builder.getConfiguration();
-//            } catch (ConfigurationException conEx) {
-//                LOGGER.logError(conEx.getMessage(), conEx);
-//                clearCache();
-//            } catch (Exception ex) {
-//                LOGGER.logError(ex.getMessage(), ex);
-//                reset();
-//            } finally {
-//                if (config == null) {
-//                    LOGGER.logWarn("... correct the configuration file and make sure it is validated" +
-//                            " against the schema. System will retry in " + CONFIG_RETRY_INTERVAL + " seconds.");
-//                    try {
-//                        TimeUnit.SECONDS.sleep(CONFIG_RETRY_INTERVAL);
-//                    } catch (InterruptedException ex) {
-//                        LOGGER.logError(ex.getMessage(), ex);
-//                    }
-//                }
-//            }
-//        }
-//        return config;
-//    }
-
-    private void loadCurProvinceCode() {
-        curProvinceCode = ProvinceCodeProvider.getInstance().getCurrentProvinceCode().toString();
     }
 
     /**
@@ -176,6 +63,89 @@ public final class CapabilityManager {
     public static synchronized void reset() {
         _instance = null;
         _instance = getInstance();
+    }
+
+    private void initConfig() throws Exception {
+        clearCache();
+
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
+        URL[] urls = ((URLClassLoader) cl).getURLs();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\n"
+                + CAPABILITY_CONFIG_FILE
+                + " file will be searched/loaded from the following classpath and checked every "
+                + CONFIG_TRIGGER_PERIOD + " " + CONFIG_TRIGGER_UNIT + " for any change:\n");
+        for (URL url : urls) {
+            stringBuilder.append("\t" + url.getFile() + "\n");
+        }
+        LOGGER.logWarn(stringBuilder.toString());
+        xmlConfiguration = new XMLConfiguration(CAPABILITY_CONFIG_FILE);
+        xmlConfiguration.setSchemaValidation(true);
+        xmlConfiguration.setExpressionEngine(new XPathExpressionEngine());
+        final FileChangedReloadingStrategy strategy = new FileChangedReloadingStrategy();
+        strategy.setRefreshDelay(CONFIG_TRIGGER_UNIT.toMillis(CONFIG_TRIGGER_PERIOD));
+        xmlConfiguration.setReloadingStrategy(strategy);
+        // This will throw a ConfigurationException if the XML document does not
+        // conform to its Schema.
+        xmlConfiguration.load();
+        LOGGER.logInfo("Following capability file successfully loaded: "
+                + xmlConfiguration.getFile().getAbsolutePath());
+        xmlConfiguration.addConfigurationListener(
+                new ConfigurationListener() {
+                    @Override
+                    public void configurationChanged(ConfigurationEvent event) {
+                        if (!event.isBeforeUpdate()) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            stringBuilder.append("\n");
+                            stringBuilder.append("\tReceived event!\n");
+                            stringBuilder.append("\tType = " + event.getType() + "\n");
+                            if (event.getPropertyName() != null) {
+                                stringBuilder.append("\tProperty name = " + event.getPropertyName() + "\n");
+                            }
+                            if (event.getPropertyValue() != null) {
+                                stringBuilder.append("\tProperty value = " + event.getPropertyValue() + "\n");
+                            }
+                            LOGGER.logWarn(stringBuilder.toString());
+                        }
+                    }
+                }
+        );
+    }
+
+    private XMLConfiguration getConfig() {
+        // keep trying to get the init if the configuration is returned null or
+        // not validating.
+        while (xmlConfiguration == null
+                || xmlConfiguration.getReloadingStrategy().reloadingRequired()
+                || !xmlConfiguration.isValidating()) {
+
+            try {
+                initConfig();
+            } catch (Exception ex) {
+                LOGGER.logError(ex.getMessage(), ex);
+                xmlConfiguration = null;
+                clearCache();
+                LOGGER.logWarn("... correct the configuration file and make sure it is validated" +
+                        " against the schema. System will retry in " + CONFIG_RETRY_INTERVAL + " seconds.");
+                try {
+                    TimeUnit.SECONDS.sleep(CONFIG_RETRY_INTERVAL);
+                } catch (InterruptedException iex) {
+                    LOGGER.logError(ex.getMessage(), iex);
+                }
+            }
+        }
+        return xmlConfiguration;
+    }
+
+    private void validateCache() {
+        // clear the cache if capability file changed.
+        if (getConfig().getReloadingStrategy().reloadingRequired()) {
+            clearCache();
+        }
+    }
+
+    private void loadCurProvinceCode() {
+        curProvinceCode = ProvinceCodeProvider.getInstance().getCurrentProvinceCode().toString();
     }
 
     /**
@@ -193,8 +163,9 @@ public final class CapabilityManager {
      * @return boolean true or false
      */
     public boolean getBoolean(CapabilityKey key) {
-        Boolean enabled = null;
+        Boolean enabled;
         if (ENABLE_LOCAL_CACHE) {
+            validateCache();
             enabled = capabilityCache.getBoolean(key);
         }
         if (enabled == null) { // capability  is not cached yet.
@@ -218,8 +189,9 @@ public final class CapabilityManager {
      * @return String a text value of the capability
      */
     public String getString(CapabilityKey key) {
-        String val = null;
+        String val;
         if (ENABLE_LOCAL_CACHE) {
+            validateCache();
             val = capabilityCache.getString(key);
         }
         if (val == null) {// capability  is not cached yet.
@@ -237,8 +209,9 @@ public final class CapabilityManager {
      * @return long an long value of the capability
      */
     public long getLong(CapabilityKey key) {
-        Long val = null;
+        Long val;
         if (ENABLE_LOCAL_CACHE) {
+            validateCache();
             val = capabilityCache.getLong(key);
         }
         if (val == null) {// capability  is not cached yet.
@@ -256,8 +229,9 @@ public final class CapabilityManager {
      * @return double a double value of the capability
      */
     public double getDouble(CapabilityKey key) {
-        Double val = null;
+        Double val;
         if (ENABLE_LOCAL_CACHE) {
+            validateCache();
             val = capabilityCache.getDouble(key);
         }
         if (val == null) {// capability  is not cached yet.
