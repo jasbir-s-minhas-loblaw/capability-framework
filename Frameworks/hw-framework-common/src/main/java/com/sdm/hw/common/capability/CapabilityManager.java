@@ -33,13 +33,14 @@ public final class CapabilityManager {
     private static final String CAPABILITY_NAME_TAG = "capability[@name='";
     private static final String VALUE_TAG = "value[@code='";
     private static final boolean ENABLE_LOCAL_CACHE = true;
-    private static final int CONFIG_TRIGGER_PERIOD = 10;
+    private static final int CONFIG_TRIGGER_PERIOD = 30;
     private static final TimeUnit CONFIG_TRIGGER_UNIT = TimeUnit.SECONDS;
-    private static final int CONFIG_RETRY_INTERVAL = 10;
+    private static final int CONFIG_RETRY_INTERVAL = 30;
     private static final HwLogger LOGGER = LogManager.getLogger(CapabilityManager.class);
     // Singleton Class initialization
     private static volatile CapabilityManager _instance = null;
     private String curProvinceCode;
+    // the xmlConfiguration variable should be only used in initConfig() and getConfig() only
     private XMLConfiguration xmlConfiguration = null;
     private CapabilityCache capabilityCache = new CapabilityCache();
 
@@ -52,7 +53,6 @@ public final class CapabilityManager {
     public static synchronized CapabilityManager getInstance() {
         if (_instance == null) {
             _instance = new CapabilityManager();
-            _instance.getConfig();
         }
         return _instance;
     }
@@ -112,6 +112,11 @@ public final class CapabilityManager {
         );
     }
 
+    /**
+     * This method is used to get the configuration object. It is used by various method to get the properly
+     * initialized configuration object
+     * @return XMLConfiguration
+     */
     private XMLConfiguration getConfig() {
         // keep trying to get the init if the configuration is returned null or
         // not validating.
