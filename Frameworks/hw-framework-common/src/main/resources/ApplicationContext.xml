@@ -15,20 +15,20 @@
     <context:component-scan base-package="com.sdm.hw.common.capability.persistence.dao.impl" />
 
     <!-- User the following bean when running in JEE container -->
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="jdbc/hwDataSource"/>
-    </bean>
+    <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+        <!--<property name="jndiName" value="jdbc/hwDataSource"/>-->
+    <!--</bean>-->
 
     <!-- User the following bean when running outside of JEE container in DB2 environment -->
-    <!--<bean id="dataSource"-->
-          <!--class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <!--<property name="driverClassName" value="com.ibm.db2.jcc.DB2Driver" />-->
         <!--<property name="url" value="jdbc:db2://10.28.98.1:50001/HWNG_DB" />-->
-        <!--&lt;!&ndash;<property name="driverClassName" value="com.mysql.jdbc.Driver" />&ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="url" value="jdbc:mysql://localhost:3306/HWNG_DB?useSSL=false" />&ndash;&gt;-->
-        <!--<property name="username" value="CSUSER" />-->
-        <!--<property name="password" value="cloud" />-->
-    <!--</bean>-->
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/HWNG_DB?useSSL=false" />
+        <property name="username" value="CSUSER" />
+        <property name="password" value="cloud" />
+    </bean>
 
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
