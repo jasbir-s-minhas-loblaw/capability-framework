@@ -8,7 +8,14 @@
 		<class>com.sdm.hw.common.capability.persistence.entity.StorePreference</class>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
-		    <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+		    <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />-->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.DB2Dialect" />
+			<property name="hibernate.archive.autodetect" value="class, hbm" />
+			<property name="hibernate.show_sql" value="true"></property>
+			<property name="hibernate.validator.apply_to_ddl" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="javax.persistence.validation.mode" value="none" />
+
 		</properties>
 	</persistence-unit>
 
