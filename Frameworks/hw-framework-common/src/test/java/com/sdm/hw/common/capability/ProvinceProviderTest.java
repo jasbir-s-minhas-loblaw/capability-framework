@@ -31,7 +31,7 @@ public class ProvinceProviderTest {
 
     @Test
     public void getCurrentProvince() throws Exception {
-        assertEquals(Province.NOVA_SCOTIA, provinceProvider.getCurrentProvince());
+        assertEquals(Province.ONTARIO, provinceProvider.getCurrentProvince());
     }
 
 }
