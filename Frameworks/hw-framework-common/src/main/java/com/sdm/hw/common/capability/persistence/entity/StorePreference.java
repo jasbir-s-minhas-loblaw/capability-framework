@@ -1,9 +1,18 @@
-package com.sdm.hw.common.capability.db.entity;
+package com.sdm.hw.common.capability.persistence.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+/**
+ * This JPA class is an entity object mapping to STORE_PREFRENCE table.
+ *
+ * @author Jasbir Minhas
+ * @version 1.0
+ * @since 2017-11-20
+ *
+ */
 
 @Entity
 @Table(name="store_preference", schema="HW")

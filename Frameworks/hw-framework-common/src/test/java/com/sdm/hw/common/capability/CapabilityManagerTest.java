@@ -12,60 +12,60 @@ public class CapabilityManagerTest extends CapabilityTest {
 
     @Test
     public void testBoolean() throws Exception {
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NOVA_SCOTIA);
+        provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         capabilityManager.clearCache();
         assertEquals(true, capabilityManager.getBoolean(CapabilityBooleanKey.ALLERGY_STATUS));
 
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NEW_BRUNSWICK);
+        provinceProvider.setCurrentProvince(Province.NEW_BRUNSWICK);
         capabilityManager.clearCache();
         assertEquals(true, capabilityManager.getBoolean(CapabilityBooleanKey.ALLERGY_STATUS));
 
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.ONTARIO);
+        provinceProvider.setCurrentProvince(Province.ONTARIO);
         capabilityManager.clearCache();
         assertEquals(false, capabilityManager.getBoolean(CapabilityBooleanKey.ALLERGY_STATUS));
     }
 
     @Test
     public void testString() throws Exception {
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NOVA_SCOTIA);
+        provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         capabilityManager.clearCache();
         assertEquals("NS-String", capabilityManager.getString(CapabilityStringKey.TEST_2_LEVEL_GROUP));
 
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NEW_BRUNSWICK);
+        provinceProvider.setCurrentProvince(Province.NEW_BRUNSWICK);
         capabilityManager.clearCache();
         assertEquals("NB-String", capabilityManager.getString(CapabilityStringKey.TEST_2_LEVEL_GROUP));
 
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.ONTARIO);
+        provinceProvider.setCurrentProvince(Province.ONTARIO);
         capabilityManager.clearCache();
         assertEquals("ON-String", capabilityManager.getString(CapabilityStringKey.TEST_2_LEVEL_GROUP));
     }
 
     @Test
     public void testInt() throws Exception {
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NOVA_SCOTIA);
+        provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         capabilityManager.clearCache();
         assertEquals(100, capabilityManager.getLong(CapabilityLongKey.TEST_2_LEVEL_GROUP));
 
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NEW_BRUNSWICK);
+        provinceProvider.setCurrentProvince(Province.NEW_BRUNSWICK);
         capabilityManager.clearCache();
         assertEquals(200, capabilityManager.getLong(CapabilityLongKey.TEST_2_LEVEL_GROUP));
 
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.ONTARIO);
+        provinceProvider.setCurrentProvince(Province.ONTARIO);
         capabilityManager.clearCache();
         assertEquals(999, capabilityManager.getLong(CapabilityLongKey.TEST_2_LEVEL_GROUP));
     }
 
     @Test
     public void testDouble() throws Exception {
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NOVA_SCOTIA);
+        provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         capabilityManager.clearCache();
         assertEquals(1.5, capabilityManager.getDouble(CapabilityDoubleKey.TEST_2_LEVEL_GROUP), 0.0);
 
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NEW_BRUNSWICK);
+        provinceProvider.setCurrentProvince(Province.NEW_BRUNSWICK);
         capabilityManager.clearCache();
         assertEquals(2.5, capabilityManager.getDouble(CapabilityDoubleKey.TEST_2_LEVEL_GROUP), 0.0);
 
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.ONTARIO);
+        provinceProvider.setCurrentProvince(Province.ONTARIO);
         capabilityManager.clearCache();
         assertEquals(10.9, capabilityManager.getDouble(CapabilityDoubleKey.TEST_2_LEVEL_GROUP), 0.0);
     }
@@ -84,7 +84,7 @@ public class CapabilityManagerTest extends CapabilityTest {
         // Following line copies an bad config file into config file. This will cause a ConfigurationException
         // and put the framework in a loop util the configuration is fixed.
         copyFile(badConfig, capabilityConfig);
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NOVA_SCOTIA);
+        provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         // Reset the capability manager to simulate a behaviour which would be similar at the starting of the System.
         CapabilityManager.reset();
         capabilityManager = CapabilityManager.getInstance();

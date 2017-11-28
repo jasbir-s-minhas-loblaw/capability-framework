@@ -29,45 +29,33 @@
 // * This notice may not be removed or altered.
 //
 // === End File Prolog =======================================================
-package com.sdm.hw.common.capability.db.dao;
+package com.sdm.hw.common.capability.persistence.dao;
 
-import com.sdm.hw.common.capability.db.entity.StorePreference;
+import com.sdm.hw.common.capability.persistence.entity.StorePreference;
 import java.util.List;
 
 /**
  * The Interface StorePreferenceDAO.
+ *
+ * @author Jasbir Minhas
+ * @version 1.0
+ * @since 2017-11-20
+ *
  */
+
 public interface StorePreferenceDAO {
     /**
      * Find all.
      * @return the list
      * @throws Exception
-     *             the hw base app exception
      */
     List<StorePreference> findAll() throws Exception;
 
-    StorePreference findByCDSP(String CDSP) throws Exception;
-
     /**
-     * Find by primary key.
-     * 
-     * @param id
-     *
-     *            the id
+     * Find by CDSP.
      * @return the store preference
      * @throws Exception
-     *             the hw base app exception
      */
-//    StorePreference findByPrimaryKey(String id) throws Exception;
+    StorePreference findByCDSP(String CDSP) throws Exception;
 
-    /**
-     * Update store preference.
-     * 
-     * @param generateStorePreference
-     *            the generate store preference
-     * @throws Exception
-     *             the hw base app exception
-     */
-//    void updateStorePreference(StorePreference generateStorePreference)
-//        throws Exception;
 }

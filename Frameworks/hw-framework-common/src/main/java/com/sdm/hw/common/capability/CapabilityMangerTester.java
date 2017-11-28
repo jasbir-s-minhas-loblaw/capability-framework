@@ -1,7 +1,5 @@
 package com.sdm.hw.common.capability;
 
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,14 +19,14 @@ public class CapabilityMangerTester {
 
 
     private static void test() {
-        ProvinceCodeProvider.getInstance().setCurrentProvinceCode(ProvinceCode.NOVA_SCOTIA);
-
+        ProvinceProvider provinceProvider = ProvinceProvider.getInstance();
         while (true) {
             try {
                 TimeUnit.SECONDS.sleep(5);
                 LOGGER.info(System.currentTimeMillis() + " : "
                         + "Value of " + CapabilityBooleanKey.ALLERGY_STATUS + " : "
-                        + CapabilityBooleanKey.ALLERGY_STATUS.isEnabled());
+                        + CapabilityBooleanKey.ALLERGY_STATUS.isEnabled()
+                        + " | Province : " + provinceProvider.getCurrentProvince());
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, ex.toString(), ex);
             }

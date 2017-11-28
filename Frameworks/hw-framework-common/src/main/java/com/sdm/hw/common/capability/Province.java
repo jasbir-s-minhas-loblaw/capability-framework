@@ -1,14 +1,18 @@
 package com.sdm.hw.common.capability;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * This enum representing ProvinceCode Code:
+ * This enum representing Province :
  *
  * @author Jasbir Minhas
  * @version 1.0
  * @since 2017-11-07
  */
 
-public enum ProvinceCode {
+public enum Province {
     ALBERTA("AB"),
     BRITISH_COLUMBIA("BC"),
     MANITOBA("MB"),
@@ -23,6 +27,15 @@ public enum ProvinceCode {
     SASKATCHEWAN("SK"),
     YUKON("YT");
 
+    private static final Map<String, Province> NAME_MAP;
+
+    static {
+        NAME_MAP = new HashMap<String, Province>();
+        for (Province province : EnumSet.allOf(Province.class)) {
+            NAME_MAP.put(province.code, province);
+        }
+    }
+
 
     /**
      * a String representing a path to the capability
@@ -34,10 +47,17 @@ public enum ProvinceCode {
      *
      * @param provinceCode String representing the province code.
      */
-    ProvinceCode(final String provinceCode) {
+    Province(final String provinceCode) {
         this.code = provinceCode;
     }
 
+    public static Province getProvince(String provinceCode){
+        return NAME_MAP.get(provinceCode);
+    }
+
+    public String getCode() {
+        return code;
+    }
     /**
      * @see Enum#toString()
      */

@@ -23,7 +23,7 @@ abstract public class CapabilityTest {
     protected static File capabilityConfig = null;
     protected static String tempDirPath = null;
     protected static CapabilityManager capabilityManager = CapabilityManager.getInstance();
-    protected static ProvinceCodeProvider provinceCodeProvider = ProvinceCodeProvider.getInstance();
+    protected static ProvinceProvider provinceProvider = ProvinceProvider.getInstance();
     protected static final int DELAY = ThreadLocalRandom.current().nextInt(0, 30);
     ;
 
@@ -73,7 +73,7 @@ abstract public class CapabilityTest {
     @Before
     public void setUp() throws Exception {
         copyFile(validConfig, capabilityConfig);
-        provinceCodeProvider.setCurrentProvinceCode(ProvinceCode.NOVA_SCOTIA);
+        provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         capabilityManager.clearCache();
     }
 

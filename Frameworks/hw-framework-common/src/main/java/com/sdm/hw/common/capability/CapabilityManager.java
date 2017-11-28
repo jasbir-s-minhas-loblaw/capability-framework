@@ -149,15 +149,20 @@ public final class CapabilityManager {
         }
     }
 
-    private void loadCurProvinceCode() {
-        curProvinceCode = ProvinceCodeProvider.getInstance().getCurrentProvinceCode().toString();
+    /**
+     * This method reloads province from database
+     */
+    private void reloadCurProvinceCode() {
+        ProvinceProvider provinceProvider = ProvinceProvider.getInstance();
+        provinceProvider.reloadProvince();
+        curProvinceCode = provinceProvider.getCurrentProvince().getCode();
     }
 
     /**
      * This method clears cachce only
      */
     public void clearCache() {
-        loadCurProvinceCode();
+        reloadCurProvinceCode();
         capabilityCache.cleanCache();
     }
 
