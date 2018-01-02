@@ -39,7 +39,7 @@ public final class CapabilityManager {
     private static final HwLogger LOGGER = LogManager.getLogger(CapabilityManager.class);
     // Singleton Class initialization
     private static volatile CapabilityManager _instance = null;
-    private String curProvinceCode;
+    private String curProvinceCode =  ProvinceProvider.getInstance().getCurrentProvince().getCode();
     // the xmlConfiguration variable should be only used in initConfig() and getConfig() only
     private XMLConfiguration xmlConfiguration = null;
     private CapabilityCache capabilityCache = new CapabilityCache();
@@ -150,19 +150,9 @@ public final class CapabilityManager {
     }
 
     /**
-     * This method reloads province from database
-     */
-    private void reloadCurProvinceCode() {
-        ProvinceProvider provinceProvider = ProvinceProvider.getInstance();
-        provinceProvider.reloadProvince();
-        curProvinceCode = provinceProvider.getCurrentProvince().getCode();
-    }
-
-    /**
      * This method clears cachce only
      */
     public void clearCache() {
-        reloadCurProvinceCode();
         capabilityCache.cleanCache();
     }
 
