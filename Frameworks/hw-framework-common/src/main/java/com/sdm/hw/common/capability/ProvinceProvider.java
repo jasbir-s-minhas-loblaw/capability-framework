@@ -12,6 +12,10 @@ public final class ProvinceProvider {
 
     private static final HwLogger LOGGER = LogManager.getLogger(CapabilityManager.class);
 
+    // get application context from the classpath
+    private static ClassPathXmlApplicationContext applicationContext =
+            new ClassPathXmlApplicationContext("ApplicationContext.xml");
+
 
     private static ProvinceProvider provinceProvider;
 
@@ -45,10 +49,6 @@ public final class ProvinceProvider {
 
         String provCode = null;
 
-        // get application context from the classpath
-        ClassPathXmlApplicationContext applicationContext =
-                new ClassPathXmlApplicationContext("ApplicationContext.xml");
-
         // get bean from the Spring container
         StorePreferenceManager storePreferenceManager =
                 applicationContext.getBean("storePreferenceManager", StorePreferenceManager.class);
@@ -58,10 +58,14 @@ public final class ProvinceProvider {
             provCode = storePreferenceManager.getProvince();
         } catch (Exception ex) {
             LOGGER.logFatal("Exception getting province from database.", ex.getMessage(), ex);
-        } finally {
-            applicationContext.close();
-            return provCode;
         }
+        return provCode;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        applicationContext.close();
+        super.finalize();
     }
 
 
@@ -74,7 +78,7 @@ public final class ProvinceProvider {
 
     /**
      *
-     * @param province
+     * @param province province
      */
     void setCurrentProvince(Province province){
         this.province = province;
