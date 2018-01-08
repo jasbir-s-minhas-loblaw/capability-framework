@@ -5,6 +5,8 @@ import com.sdm.hw.common.capability.persistence.entity.StorePreference;
 import com.sdm.hw.common.capability.persistence.service.StorePreferenceManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional( propagation = Propagation.SUPPORTS,readOnly = true )
 public class StorePreferenceManagerImpl implements StorePreferenceManager {
 
     @Autowired

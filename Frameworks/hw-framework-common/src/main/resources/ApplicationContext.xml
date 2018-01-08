@@ -36,9 +36,13 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
+    <!--<bean id="transactionManager"-->
+          <!--class="org.springframework.transaction.jta.WebSphereUowTransactionManager">-->
+    <!--</bean>-->
 
     <bean id="storePreferenceManager" class="com.sdm.hw.common.capability.persistence.service.impl.StorePreferenceManagerImpl" />
 
