@@ -16,8 +16,7 @@ public final class ProvinceProvider {
     private static ClassPathXmlApplicationContext applicationContext =
             new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
-
-    private static ProvinceProvider provinceProvider;
+    private static ProvinceProvider _instance = new ProvinceProvider();
 
     private Province province;
 
@@ -27,22 +26,8 @@ public final class ProvinceProvider {
     private ProvinceProvider() {
     }
 
-    public static synchronized ProvinceProvider getInstance() {
-        if (provinceProvider == null) {
-            provinceProvider = new ProvinceProvider();
-            String provinceCode = provinceProvider.getProvinceCodeFromDB();
-            provinceProvider.province = Province.getProvince(provinceCode);
-        }
-        return provinceProvider;
-    }
-
-    /**
-     *  Reloads province code from database
-     */
-    public static synchronized void reloadProvince() {
-        ProvinceProvider provinceProvider = getInstance();
-        String provinceCode = provinceProvider.getProvinceCodeFromDB();
-        provinceProvider.province = Province.getProvince(provinceCode);
+    public static ProvinceProvider getInstance() {
+        return _instance;
     }
 
     private String getProvinceCodeFromDB() {
@@ -68,11 +53,14 @@ public final class ProvinceProvider {
         super.finalize();
     }
 
-
     /**
      * @return province for the current province
      */
-    Province getCurrentProvince() {
+    public Province getCurrentProvince() {
+    	if ( province == null){
+            String provinceCode = getProvinceCodeFromDB();
+            province = Province.getProvince(provinceCode);
+    	}
         return province;
     }
 
@@ -80,7 +68,7 @@ public final class ProvinceProvider {
      *
      * @param province province
      */
-    void setCurrentProvince(Province province){
+    public void setCurrentProvince(Province province){
         this.province = province;
     }
 }
