@@ -26,10 +26,6 @@ public class ProvinceProviderTest {
     }
 
     @Test
-    public void reloadProvince() throws Exception {
-    }
-
-    @Test
     public void getCurrentProvince() throws Exception {
         assertEquals(Province.NEW_BRUNSWICK, provinceProvider.getCurrentProvince());
     }
