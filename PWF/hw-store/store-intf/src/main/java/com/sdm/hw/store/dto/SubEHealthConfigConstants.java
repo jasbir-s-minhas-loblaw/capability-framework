@@ -5,6 +5,7 @@
 package com.sdm.hw.store.dto;
 
 import com.sdm.hw.common.capability.CapabilityBooleanKey;
+import com.sdm.hw.common.capability.CapabilityStringKey;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -12,8 +13,8 @@ import java.util.Map;
 
 public enum SubEHealthConfigConstants {
 
-    SUB_EHEALTH ("SUB_EHEALTH"),
-    EPRESCRIBING ("SUB_EHEALTH_EPRESCRIBING"){
+	SUB_EHEALTH ("SUB_EHEALTH"),
+	EPRESCRIBING ("SUB_EHEALTH_EPRESCRIBING"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.EPRESCRIBING.isEnabled();
@@ -31,25 +32,38 @@ public enum SubEHealthConfigConstants {
             return CapabilityBooleanKey.MANAGE_CONSENT.isEnabled();
         }
     },
-    @Deprecated
-    ADD_DIS_PROVINCIAL_CONDITION("SUB_EHEALTH_PROVINCIAL_CONDITION"), // not being used anymore
+    ADD_DIS_PROVINCIAL_CONDITION("SUB_EHEALTH_PROVINCIAL_CONDITION"){
+        @Override
+        public boolean isEnabled(){
+            return CapabilityBooleanKey.ADD_DIS_PROVINCIAL_CONDITION.isEnabled();
+        }
+    },
     YES("Y"),
-	SUB_EHEALTH_REASON_TO_ACCESS_POPUP("SUB_EHEALTH_REASON_TO_ACCESS_POPUP"){
+    SUB_EHEALTH_REASON_TO_ACCESS_POPUP("SUB_EHEALTH_REASON_TO_ACCESS_POPUP"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.REASON_TO_ACCESS_POPUP.isEnabled();
         }
     },
-	SUB_EHEALTH_LINK_PROVINCIALRX("SUB_EHEALTH_LINK_PROVINCIALRX"){
+    SUB_EHEALTH_LINK_PROVINCIALRX("SUB_EHEALTH_LINK_PROVINCIALRX"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.LINK_PROVINCIAL_RX.isEnabled();
         }
     },
-	SUB_EHEALTH_VIEW_STATUS_CHANGE("SUB_EHEALTH_VIEW_STATUS_CHANGE"),
-    @Deprecated
-	SUB_EHEALTH_TRIGGER_DIS_ONOK("SUB_EHEALTH_TRIGGER_DIS_ONOK"), // not being used anymore
-	SUB_EHEALTH_ALLERGY_STATUS("SUB_EHEALTH_ALLERGY_STATUS"){
+    SUB_EHEALTH_VIEW_STATUS_CHANGE("SUB_EHEALTH_VIEW_STATUS_CHANGE"){
+        @Override
+        public boolean isEnabled(){
+            return CapabilityBooleanKey.VIEW_STATUS_CHANGE.isEnabled();
+        }
+    },
+    SUB_EHEALTH_TRIGGER_DIS_ONOK("SUB_EHEALTH_TRIGGER_DIS_ONOK"){
+        @Override
+        public boolean isEnabled(){
+            return CapabilityBooleanKey.TRIGGER_DIS_ONOK.isEnabled();
+        }
+    },
+    SUB_EHEALTH_ALLERGY_STATUS("SUB_EHEALTH_ALLERGY_STATUS"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.ALLERGY_STATUS.isEnabled();
@@ -61,15 +75,19 @@ public enum SubEHealthConfigConstants {
             return CapabilityBooleanKey.INTOL_STATUS.isEnabled();
         }
     },
-	SUB_EHEALTH_ADR_STATUS("SUB_EHEALTH_ADR_STATUS"){
+    SUB_EHEALTH_ADR_STATUS("SUB_EHEALTH_ADR_STATUS"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.ADR_STATUS.isEnabled();
         }
     },
-    @Deprecated
-	SUB_EHEALTH_STORE_PROVINCE_OPTION("SUB_EHEALTH_STORE_PROVINCE_OPTION"), // not being used
-	SUB_EHEALTH_PATIENT_SEARCH ("SUB_EHEALTH_PATIENT_SEARCH"){
+	SUB_EHEALTH_STORE_PROVINCE_OPTION("SUB_EHEALTH_STORE_PROVINCE_OPTION"){
+        @Override
+        public boolean isEnabled(){
+            return CapabilityBooleanKey.STORE_PROVINCE_OPTION.isEnabled();
+        }
+    },
+    SUB_EHEALTH_PATIENT_SEARCH ("SUB_EHEALTH_PATIENT_SEARCH"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.PATIENT_SEARCH.isEnabled();
@@ -84,13 +102,13 @@ public enum SubEHealthConfigConstants {
 	PROVINCIAL_RX_NON_FILL_ACTIONS_REQUIRE_INTAKE ("SUB_EHEALTH_PROVINCIAL_RX_REQUIRE_INTAKE"){
         @Override
         public boolean isEnabled(){
-            return CapabilityBooleanKey.PROVINCIAL_RX_REQUIRE_INTAKE.isEnabled();
+            return CapabilityBooleanKey.PROVINCIAL_RX_NON_FILL_ACTIONS_REQUIRE_INTAKE.isEnabled();
         }
     },
-	PATIENT_PROFILE_REVIEW_IS_MANDATORY_AT_CV("SUB_EHEALTH_PATIENT_PRO_REV_IS_MANDATORY_AT_CV"){
+    PATIENT_PROFILE_REVIEW_IS_MANDATORY_AT_CV("SUB_EHEALTH_PATIENT_PRO_REV_IS_MANDATORY_AT_CV"){
         @Override
         public boolean isEnabled(){
-            return CapabilityBooleanKey.PATIENT_PRO_REV_IS_MANDATORY_AT_CV.isEnabled();
+            return CapabilityBooleanKey.PATIENT_PROFILE_REVIEW_IS_MANDATORY_AT_CV.isEnabled();
         }
     },
 	SUB_EHEALTH_DISPLAY_MANAGEMENT_HISTORY_AT_CV ("SUB_EHEALTH_DISPLAY_MANAGEMENT_HISTORY_AT_CV"){
@@ -99,7 +117,7 @@ public enum SubEHealthConfigConstants {
 	        return CapabilityBooleanKey.DISPLAY_MANAGEMENT_HISTORY_AT_CV.isEnabled();
         }
     },
-	DISPLAY_TX_FOR_PROVINCIAL_RX("SUB_EHEALTH_DISPLAY_TX_FOR_PROVINCIAL_RX"){
+    DISPLAY_TX_FOR_PROVINCIAL_RX("SUB_EHEALTH_DISPLAY_TX_FOR_PROVINCIAL_RX"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.DISPLAY_TX_FOR_PROVINCIAL_RX.isEnabled();
@@ -117,7 +135,7 @@ public enum SubEHealthConfigConstants {
             return CapabilityBooleanKey.DISPLAY_PROVINCIAL_DATA.isEnabled();
         }
     },
-	SUB_EHEALTH_PROV_MEDICATION_PROFILE("SUB_EHEALTH_PROV_MEDICATION_PROFILE"){
+    SUB_EHEALTH_PROV_MEDICATION_PROFILE("SUB_EHEALTH_PROV_MEDICATION_PROFILE"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.PROV_MEDICATION_PROFILE.isEnabled();
@@ -167,7 +185,7 @@ public enum SubEHealthConfigConstants {
             return CapabilityBooleanKey.VIEW_PROVINCIAL_ALLERGIES.isEnabled();
         }
     },
-	SUB_EHEALTH_VIEW_PROV_MEDICAL_CONDITIONS("SUB_EHEALTH_VIEW_PROV_MEDICAL_CONDITIONS"){
+    SUB_EHEALTH_VIEW_PROV_MEDICAL_CONDITIONS("SUB_EHEALTH_VIEW_PROV_MEDICAL_CONDITIONS"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.VIEW_PROV_MEDICAL_CONDITIONS.isEnabled();
@@ -185,7 +203,7 @@ public enum SubEHealthConfigConstants {
             return CapabilityBooleanKey.CONDITION_REPLACED_VERSION.isEnabled();
         }
     },
-	SUB_EHEALTH_VIEW_PROVINCIAL_ADRS("SUB_EHEALTH_VIEW_PROVINCIAL_ADRS"){
+    SUB_EHEALTH_VIEW_PROVINCIAL_ADRS("SUB_EHEALTH_VIEW_PROVINCIAL_ADRS"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.VIEW_PROVINCIAL_ADRS.isEnabled();
@@ -215,9 +233,12 @@ public enum SubEHealthConfigConstants {
             return CapabilityBooleanKey.CHEMICAL_DIN_CHECK.isEnabled();
         }
     },
-//	HW_COPY_PATIENT_CONFIG("HW_COPY_PATIENT_CONFIG"),
-	
-	/** start - Code changes for BP 640 Request DIS Provide Sent/Not Sent Report - Release- 16.2 **/
+    SUB_EHEALTH_TRANSFER_PROVINCE_LOCATION_ID ("SUB_EHEALTH_TRANSFER_PROVINCE_LOCATION_ID"){
+        public boolean isEnabled(){
+            return CapabilityBooleanKey.TRANSFER_PROVINCE_LOCATION_ID.isEnabled();
+        }
+    },
+    /** start - Code changes for BP 640 Request DIS Provide Sent/Not Sent Report - Release- 16.2 **/
 	SUB_EHEALTH_SEND_PROVINCIAL_NOT_SENT_REPORT("SUB_EHEALTH_SEND_PROVINCIAL_NOT_SENT_REPORT"){
         @Override
         public boolean isEnabled(){
@@ -225,19 +246,15 @@ public enum SubEHealthConfigConstants {
         }
     },
 	/** End - Code changes for BP 640 Request DIS Provide Sent/Not Sent Report - Release- 16.2 **/
-	
 	/** start - Code changes for BP 350 Add Rx Tx Notes - Release- 16.2 **/
-
 	SEND_RX_TX_NOTES("SUB_EHEALTH_SEND_RX_TX_NOTES"){
         @Override
         public boolean isEnabled(){
             return CapabilityBooleanKey.SEND_RX_TX_NOTES.isEnabled();
         }
     },
-
 	/** End - Code changes for BP 350 Add Rx Tx Notes - Release- 16.2 **/
-
-	/** Start code changes for BP 2000 Import Provincial Rx Release 16.2 on 29/04/2016**/
+    /** Start code changes for BP 2000 Import Provincial Rx Release 16.2 on 29/04/2016**/
 	SUB_EHEALTH_IMPORT_PROVINCIAL_PRESCRIPTION("SUB_EHEALTH_IMPORT_PROVINCIAL_PRESCRIPTIONS"){
         @Override
         public boolean isEnabled(){
@@ -262,21 +279,29 @@ public enum SubEHealthConfigConstants {
         }
     },
 	/** End - Code changes for Link To Prov. Indicator Configuration added Release-16.2 on 05/08/2016**/
-	
-	
-	/** Start - Code changes for CR 77**/
+    /** Start - Code changes for CR 77**/
 	SUB_EHEALTH_UNDISC_RX_ACTION ("SUB_EHEALTH_UNDISC_RX_ACTION"){
-        public boolean isEnabled(){
+    	@Override
+    	public boolean isEnabled(){
             return CapabilityBooleanKey.UNDISC_RX_ACTION.isEnabled();
         }
     },
+    
 	/** End - Code changes for CR-77**/
 	SUB_EHEALTH_ELIGIBLE_FOR_TRIAL ("SUB_EHEALTH_ELIGIBLE_FOR_TRIAL"){
-        public boolean isEnabled(){
+    	@Override
+    	public boolean isEnabled(){
             return CapabilityBooleanKey.ELIGIBLE_FOR_TRIAL.isEnabled();
         }
+    },
+    
+    SUB_EHEALTH_DECN_BUSINESS_ENTITY_TYPE ("SUB_EHEALTH_DECN_BUSINESS_ENTITY_TYPE"){
+    	@Override
+    	public String getString(){
+            return CapabilityStringKey.DECN_BUSINESS_ENTITY_TYPE.getString();
+        }
     };
-	private String rule_name_in_db; 
+    private String rule_name_in_db; 
     private static final Map<String, SubEHealthConfigConstants> NAME_MAP;
 
     static {
@@ -313,5 +338,9 @@ public enum SubEHealthConfigConstants {
      */
     public boolean isEnabled(){
         return false;
+    }
+    
+    public String getString(){
+        return "";
     }
 }
