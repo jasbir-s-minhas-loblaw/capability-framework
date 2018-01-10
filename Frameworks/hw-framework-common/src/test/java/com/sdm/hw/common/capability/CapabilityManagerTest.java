@@ -27,17 +27,17 @@ public class CapabilityManagerTest extends CapabilityTest {
 
     @Test
     public void testString() throws Exception {
-//        capabilityManager.clearCache();
-//        provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
-//        assertEquals("NS-String", capabilityManager.getString(CapabilityStringKey.TEST_2_LEVEL_GROUP));
+        capabilityManager.clearCache();
+        provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
+        assertEquals("BOTH", capabilityManager.getString(CapabilityStringKey.DECN_BUSINESS_ENTITY_TYPE));
 
-//        capabilityManager.clearCache();
-//        provinceProvider.setCurrentProvince(Province.NEW_BRUNSWICK);
-        assertEquals("NB-String", capabilityManager.getString(CapabilityStringKey.TEST_2_LEVEL_GROUP));
+        capabilityManager.clearCache();
+        provinceProvider.setCurrentProvince(Province.NEW_BRUNSWICK);
+        assertEquals("BOTH", capabilityManager.getString(CapabilityStringKey.DECN_BUSINESS_ENTITY_TYPE));
 
-//        capabilityManager.clearCache();
-//        provinceProvider.setCurrentProvince(Province.ONTARIO);
-//        assertEquals("ON-String", capabilityManager.getString(CapabilityStringKey.TEST_2_LEVEL_GROUP));
+        capabilityManager.clearCache();
+        provinceProvider.setCurrentProvince(Province.ONTARIO);
+        assertEquals("N", capabilityManager.getString(CapabilityStringKey.DECN_BUSINESS_ENTITY_TYPE));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class CapabilityManagerTest extends CapabilityTest {
         assertEquals(true, capabilityManager.getBoolean(CapabilityBooleanKey.ALLERGY_STATUS));
         deleteCapabilityFile();
         assertEquals(false, capabilityConfig.exists());
-        // Sleep to let the system load sense the missng file.
+        // Sleep to let the system load sense the missing file.
         sleep(TimeUnit.SECONDS, DELAY);
         // Following line copies a valid file into config file in a separate thread which will let system proceed.
         copyFile(validConfig, capabilityConfig, TimeUnit.SECONDS, DELAY);
