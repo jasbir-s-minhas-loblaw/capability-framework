@@ -35,11 +35,10 @@ public final class CapabilityManager {
     private static final boolean ENABLE_LOCAL_CACHE = true;
     private static final int CONFIG_TRIGGER_PERIOD = 30;
     private static final TimeUnit CONFIG_TRIGGER_UNIT = TimeUnit.SECONDS;
-    private static final int CONFIG_RETRY_INTERVAL = 30;
+    private static final int CONFIG_RETRY_INTERVAL = 180;
     private static final HwLogger LOGGER = LogManager.getLogger(CapabilityManager.class);
     // Singleton Class initialization
-    private static volatile CapabilityManager _instance = null;
-    private String curProvinceCode =  ProvinceProvider.getInstance().getCurrentProvince().getCode();
+    private static volatile CapabilityManager _instance = new CapabilityManager();
     // the xmlConfiguration variable should be only used in initConfig() and getConfig() only
     private XMLConfiguration xmlConfiguration = null;
     private CapabilityCache capabilityCache = new CapabilityCache();
@@ -51,9 +50,6 @@ public final class CapabilityManager {
     }
 
     public static synchronized CapabilityManager getInstance() {
-        if (_instance == null) {
-            _instance = new CapabilityManager();
-        }
         return _instance;
     }
 
@@ -62,7 +58,7 @@ public final class CapabilityManager {
      */
     public static synchronized void reset() {
         _instance = null;
-        _instance = getInstance();
+        _instance = new CapabilityManager();
     }
 
     private void initConfig() throws Exception {
@@ -130,7 +126,8 @@ public final class CapabilityManager {
                 LOGGER.logError(ex.getMessage(), ex);
                 xmlConfiguration = null;
                 clearCache();
-                LOGGER.logWarn("... correct the configuration file and make sure it is validated" +
+                LOGGER.logWarn("Make sure that the configuration file " + CAPABILITY_CONFIG_FILE + " and/or corresponding XSD is in the classpath " +
+                               "and the configuration file is valid " +
                         " against the schema. System will retry in " + CONFIG_RETRY_INTERVAL + " seconds.");
                 try {
                     TimeUnit.SECONDS.sleep(CONFIG_RETRY_INTERVAL);
@@ -259,6 +256,7 @@ public final class CapabilityManager {
     }
 
     private String getCapabiltyXpath(CapabilityKey key) {
+        String curProvinceCode = ProvinceProvider.getInstance().getCurrentProvince().getCode();
         String[] tokens = key.toString().split(Pattern.quote(CapabilityKey.EXPRESSION_DELIMITOR));
         String capability = tokens[tokens.length - 1];
         StringBuilder capabilityXPath = new StringBuilder();
@@ -275,6 +273,7 @@ public final class CapabilityManager {
 
     private boolean isGroupEnabled(CapabilityKey key) {
         boolean groupEnable = true;
+        String curProvinceCode = ProvinceProvider.getInstance().getCurrentProvince().getCode();
 
         StringBuilder groupXPath = new StringBuilder();
 
