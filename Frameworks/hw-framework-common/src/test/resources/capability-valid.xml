@@ -45,7 +45,7 @@
     <capabilityGroup name="eHealth">
         <enabled code="NS">true</enabled>
         <enabled code="NB">true</enabled>
-        <enabled code="ON">true</enabled>
+        <enabled code="ON">false</enabled>
         <!--View ADR Status-->
         <capability type="boolean" name="adrStatus">
             <value code="NS">false</value>
@@ -84,13 +84,13 @@
             <value code="ON">false</value>
         </capability>
         <!--DECN Business entity type value-->
-        <capability type="boolean" name="decnBusinessEntityType">
-            <value code="NS">true</value>
-            <value code="NB">true</value>
-            <value code="ON">false</value>
+        <capability type="string" name="decnBusinessEntityType">
+            <value code="NS">BOTH</value>
+            <value code="NB">BOTH</value>
+            <value code="ON">N</value>
         </capability>
         <!--TODO: Add comments.-->
-        <capability type="boolean" name="displayManagementHistoryAtCv">
+        <capability type="boolean" name="displayManagementHistoryAtCV">
             <value code="NS">true</value>
             <value code="NB">false</value>
             <value code="ON">false</value>
@@ -98,7 +98,7 @@
         <!--TODO: Add comments.-->
         <capability type="boolean" name="displayProvincialData">
             <value code="NS">true</value>
-            <value code="NB">false</value>
+            <value code="NB">true</value>
             <value code="ON">false</value>
         </capability>
         <!--There is a sub-ehealth configurable capability mode in HW (On/Off)  for the Tx of selected Provincial
@@ -165,7 +165,7 @@
         </capability>
         <!--There is a sub-ehealth configurable capability mode in HW (On/Off) to make the patient profile review
         mandatory during CV.-->
-        <capability type="boolean" name="patientProRevIsMandatoryAtCV">
+        <capability type="boolean" name="patientProfileReviewIsMandatoryAtCV">
             <value code="NS">false</value>
             <value code="NB">false</value>
             <value code="ON">false</value>
@@ -190,14 +190,14 @@
         </capability>
         <!--Rx Order Id Enabled Check-->
         <capability type="boolean" name="printRxOrderId">
-            <value code="NS">false</value>
+            <value code="NS">true</value>
             <value code="NB">false</value>
             <value code="ON">false</value>
         </capability>
         <!--There must be a sub-ehealth configuration capability (ON/OFF) in HW to allow the system to execute the
          Producer ID check when linking provincial patient to local.-->
         <capability type="boolean" name="producerIDCheck">
-            <value code="NS">true</value>
+            <value code="NS">false</value>
             <value code="NB">false</value>
             <value code="ON">false</value>
         </capability>
@@ -208,7 +208,7 @@
             <value code="ON">false</value>
         </capability>
         <!--Non-Fill Actions on Provincial Rx require Intake Enabled-->
-        <capability type="boolean" name="provincialRxRequireIntake">
+        <capability type="boolean" name="provincialRxNonFillActionsRequireIntake">
             <value code="NS">true</value>
             <value code="NB">true</value>
             <value code="ON">false</value>
@@ -272,7 +272,7 @@
         <!--Sub-Ehealth View Provincial Reactions-->
         <capability type="boolean" name="viewProvincialReactions">
             <value code="NS">true</value>
-            <value code="NB">false</value>
+            <value code="NB">true</value>
             <value code="ON">false</value>
         </capability>
         <!--View Provincial Patient Conditions-->
@@ -281,8 +281,26 @@
             <value code="NB">false</value>
             <value code="ON">false</value>
         </capability>
+        <!--Add DIS Provincial Condition-->
+        <capability type="boolean" name="addDISProvincialCondition">
+            <value code="NS">true</value>
+            <value code="NB">false</value>
+            <value code="ON">false</value>
+        </capability>
         <!--View Provincial Patient Conditions-->
-        <capability type="boolean" name="viewStatusChance">
+        <capability type="boolean" name="viewStatusChange">
+            <value code="NS">true</value>
+            <value code="NB">false</value>
+            <value code="ON">false</value>
+        </capability>
+        <!--View Provincial Patient Conditions-->
+        <capability type="boolean" name="triggerDISONOK">
+            <value code="NS">true</value>
+            <value code="NB">false</value>
+            <value code="ON">false</value>
+        </capability>
+        <!--Store Province Option-->
+        <capability type="boolean" name="storeProvinceOption">
             <value code="NS">true</value>
             <value code="NB">false</value>
             <value code="ON">false</value>
@@ -291,6 +309,11 @@
         <capability type="boolean" name="undiscRxAction">
             <value code="NS">false</value>
             <value code="NB">true</value>
+            <value code="ON">false</value>
+        </capability>
+        <capability type="boolean" name="transferProvinceLocationId">
+            <value code="NS">true</value>
+            <value code="NB">false</value>
             <value code="ON">false</value>
         </capability>
         <!--Note: Following  Not found -->
