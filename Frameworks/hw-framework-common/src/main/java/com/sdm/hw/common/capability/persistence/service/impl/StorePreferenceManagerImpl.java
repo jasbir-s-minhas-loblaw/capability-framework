@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 @Service
-@Transactional
+@Transactional( propagation = Propagation.NOT_SUPPORTED,readOnly = true )
 public class StorePreferenceManagerImpl implements StorePreferenceManager {
 
     @Autowired
