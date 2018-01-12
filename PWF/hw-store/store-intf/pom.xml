@@ -25,7 +25,12 @@
 			<version>1.8.3</version>
 			<scope>provided</scope>
 		</dependency>
-        <!-- JM End Added code -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>3.2.5.RELEASE</version>
+		</dependency>
+		<!-- JM End Added code -->
 
 		<dependency>
 			<groupId>com.sdm.hw</groupId>
