@@ -1,12 +1,23 @@
 package com.sdm.hw.common.capability;
 
+import com.sdm.hw.common.capability.persistence.entity.StorePreference;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import static org.junit.Assert.*;
 
 public class ProvinceProviderTest {
+
+
 
     ProvinceProvider provinceProvider = ProvinceProvider.getInstance();
 
@@ -27,7 +38,14 @@ public class ProvinceProviderTest {
 
     @Test
     public void getCurrentProvince() throws Exception {
+
+        TypedQuery<StorePreference> query  = Mockito.mock(TypedQuery.class);
+        EntityManager entityManager = Mockito.mock(EntityManager.class);
+        StorePreference storePreference = new StorePreference();
+        storePreference.setCdsp("STORE_EHR_JURISDICTION");
+        storePreference.setValue("ON");
+        Mockito.when(query.getSingleResult()).thenReturn(storePreference);
+        Mockito.when(entityManager.createQuery(Mockito.anyString(), StorePreference.class)).thenReturn(query);
         assertEquals(Province.NEW_BRUNSWICK, provinceProvider.getCurrentProvince());
     }
-
 }
