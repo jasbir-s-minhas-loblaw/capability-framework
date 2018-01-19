@@ -5,6 +5,9 @@
 #Maven output
 **/target/**
 
+#Coverage
+**/coverage-report/**
+
 # other files
 .DS_Store
 
