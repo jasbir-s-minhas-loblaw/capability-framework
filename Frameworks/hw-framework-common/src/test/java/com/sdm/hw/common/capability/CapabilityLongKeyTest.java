@@ -2,6 +2,8 @@ package com.sdm.hw.common.capability;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * This is JUnit test class for testing CapabilityLongKeyTest classs
  *
@@ -12,9 +14,14 @@ import org.junit.Test;
 
 public class CapabilityLongKeyTest extends CapabilityTest{
     @Test
-    public void getLong() throws Exception {
+    public void keyTest() {
+        int keyCount = 0;
         for (CapabilityLongKey key : CapabilityLongKey.values()) {
-            buildTestOutput(key, String.valueOf(key.getLong()));
+            key.getLong();
+            key.isGroup();
+            keyCount++;
         }
+        // confirm that all keys are accessible
+        assertEquals(CapabilityLongKey.values().length, keyCount);
     }
 }

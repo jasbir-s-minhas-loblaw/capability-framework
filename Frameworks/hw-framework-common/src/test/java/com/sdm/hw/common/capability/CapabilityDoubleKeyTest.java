@@ -2,6 +2,8 @@ package com.sdm.hw.common.capability;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * This is JUnit test class for testing CapabilityDoubleKeyTest classs
  *
@@ -12,9 +14,14 @@ import org.junit.Test;
 
 public class CapabilityDoubleKeyTest extends CapabilityTest {
     @Test
-    public void getDouble() throws Exception {
+    public void keyTest() {
+        int keyCount = 0;
         for (CapabilityDoubleKey key : CapabilityDoubleKey.values()) {
-            buildTestOutput(key, String.valueOf(key.getDouble()));
+            key.getDouble();
+            key.isGroup();
+            keyCount++;
         }
+        // confirm that all keys are accessible
+        assertEquals(CapabilityDoubleKey.values().length, keyCount);
     }
 }

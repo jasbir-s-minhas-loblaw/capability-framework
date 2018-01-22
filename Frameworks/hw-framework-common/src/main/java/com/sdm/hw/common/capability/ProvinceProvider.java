@@ -11,13 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public final class ProvinceProvider {
 
     private static final HwLogger LOGGER = LogManager.getLogger(CapabilityManager.class);
-
-    // get application context from the classpath
-    private static ClassPathXmlApplicationContext applicationContext =
-            new ClassPathXmlApplicationContext("ApplicationContext.xml");
-
     private static ProvinceProvider _instance = new ProvinceProvider();
-
     private Province province;
 
     /**
@@ -32,6 +26,9 @@ public final class ProvinceProvider {
 
     private String getProvinceCodeFromDB() {
 
+        ClassPathXmlApplicationContext applicationContext =
+                new ClassPathXmlApplicationContext("ApplicationContext.xml");
+
         String provCode = null;
 
         // get bean from the Spring container
@@ -44,13 +41,8 @@ public final class ProvinceProvider {
         } catch (Exception ex) {
             LOGGER.logFatal("Exception getting province from database.", ex.getMessage(), ex);
         }
-        return provCode;
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
         applicationContext.close();
-        super.finalize();
+        return provCode;
     }
 
     /**
