@@ -1,37 +1,45 @@
 package com.sdm.hw.store.dto;
 
+import com.sdm.hw.common.capability.Province;
+import com.sdm.hw.common.capability.ProvinceProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
-import java.util.logging.Logger;
+import static org.junit.Assert.assertEquals;
 
 public class SubEHealthConfigConstantsTest {
 
-    private static Logger LOGGER = Logger.getLogger(SubEHealthConfigConstantsTest.class.getName());
-
-    protected StringBuilder stringBuilder = new StringBuilder();
-
     @Before
     public void setUp() throws Exception {
-        stringBuilder.append(System.lineSeparator());
+        // Initialized province to avoid reading from DB in JUnit
+        ProvinceProvider.getInstance().setCurrentProvince(Province.ONTARIO);
     }
 
     @After
     public void tearDown() throws Exception {
-        LOGGER.info(stringBuilder.toString());
     }
 
     @Test
-    public void contains() throws Exception {
+    public void isEnabled() throws Exception {
+        int constCount = 0;
         for (SubEHealthConfigConstants subEHealthConfigConstants : SubEHealthConfigConstants.values()){
-            stringBuilder.append(this.getClass().getSimpleName());
-            stringBuilder.append(":");
-            stringBuilder.append(subEHealthConfigConstants.getRuleName());
-            stringBuilder.append("->");
-            stringBuilder.append(subEHealthConfigConstants.isEnabled());
-            stringBuilder.append(System.lineSeparator());
+            subEHealthConfigConstants.getRuleName();
+            subEHealthConfigConstants.isEnabled();
+            subEHealthConfigConstants.getString();
+            constCount++;
         }
+        // confirm that all keys are accessible
+        assertEquals(SubEHealthConfigConstants.values().length, constCount);
+    }
+    @Test
+    public void containsTest() throws Exception{
+        assertEquals(true, SubEHealthConfigConstants.contains("SUB_EHEALTH"));
+    }
+
+    @Test
+    public void getConstObjectTest() throws Exception {
+        assertEquals(SubEHealthConfigConstants.SUB_EHEALTH,
+                SubEHealthConfigConstants.getConstantObj("SUB_EHEALTH"));
     }
 }
