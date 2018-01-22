@@ -138,46 +138,24 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
+            <scope>test</scope>
         </dependency>
-        <!--Delete the following as it is being added by the parent POM-->
-        <!-- https://mvnrepository.com/artifact/junit/junit -->
-        <!--<dependency>-->
-            <!--<groupId>junit</groupId>-->
-            <!--<artifactId>junit</artifactId>-->
-            <!--<version>4.12</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!-- Test Jars -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>1.10.19</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>3.4</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- Other Module Dependencies -->
-        <dependency>
-            <groupId>org.jmockit</groupId>
-            <artifactId>jmockit</artifactId>
-            <version>1.8</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jmockit</groupId>
-            <artifactId>jmockit-coverage</artifactId>
-            <version>1.9</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>3.2.5.RELEASE</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
