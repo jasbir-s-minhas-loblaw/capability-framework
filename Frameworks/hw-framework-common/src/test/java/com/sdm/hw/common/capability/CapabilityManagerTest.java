@@ -1,5 +1,6 @@
 package com.sdm.hw.common.capability;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -8,10 +9,19 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This is JUnit test class
+ *
+ * @author Jasbir Minhas
+ * @version 1.0
+ * @since 2018-12-21
+ */
+
+
 public class CapabilityManagerTest extends CapabilityTest {
 
     @Test
-    public void testBoolean() throws Exception {
+    public void testBoolean() {
         provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         capabilityManager.clearCache();
         assertEquals(true, capabilityManager.getBoolean(CapabilityBooleanKey.ALLERGY_STATUS));
@@ -26,7 +36,7 @@ public class CapabilityManagerTest extends CapabilityTest {
     }
 
     @Test
-    public void testString() throws Exception {
+    public void testString() {
         capabilityManager.clearCache();
         provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         assertEquals("BOTH", capabilityManager.getString(CapabilityStringKey.DECN_BUSINESS_ENTITY_TYPE));
@@ -41,7 +51,7 @@ public class CapabilityManagerTest extends CapabilityTest {
     }
 
     @Test
-    public void testInt() throws Exception {
+    public void testInt() {
         provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         capabilityManager.clearCache();
         assertEquals(100, capabilityManager.getLong(CapabilityLongKey.TEST_2_LEVEL_GROUP));
@@ -56,7 +66,7 @@ public class CapabilityManagerTest extends CapabilityTest {
     }
 
     @Test
-    public void testDouble() throws Exception {
+    public void testDouble() {
         provinceProvider.setCurrentProvince(Province.NOVA_SCOTIA);
         capabilityManager.clearCache();
         assertEquals(1.5, capabilityManager.getDouble(CapabilityDoubleKey.TEST_2_LEVEL_GROUP), 0.0);
@@ -70,11 +80,13 @@ public class CapabilityManagerTest extends CapabilityTest {
         assertEquals(10.9, capabilityManager.getDouble(CapabilityDoubleKey.TEST_2_LEVEL_GROUP), 0.0);
     }
 
+    @Ignore("Test is ignored for regular Junit testing. It should be executed when any change is performed in this package.")
     @Test
     public void testIllFormednessConfigAtStart() throws Exception {
         badConfigAtStartExecTestHelper(illFormedConfig);
     }
 
+    @Ignore("Test is ignored for regular Junit testing. It should be executed when any change is performed in this package.")
     @Test
     public void testInvalidConfigAtStart() throws Exception {
         badConfigAtStartExecTestHelper(invalidConfig);
@@ -93,11 +105,13 @@ public class CapabilityManagerTest extends CapabilityTest {
         assertEquals(true, capabilityManager.getBoolean(CapabilityBooleanKey.ALLERGY_STATUS));
     }
 
+    @Ignore("Test is ignored for regular Junit testing. It should be executed when any change is performed in this package.")
     @Test
     public void testIllFormedConfigMidExec() throws IOException {
         badConfigMidExecTestHelper(illFormedConfig);
     }
 
+    @Ignore("Test is ignored for regular Junit testing. It should be executed when any change is performed in this package.")
     @Test
     public void testInvalidConfigMidExec() throws IOException {
         badConfigMidExecTestHelper(invalidConfig);
@@ -121,6 +135,7 @@ public class CapabilityManagerTest extends CapabilityTest {
     /**
      * Test handling of deleted config file at start
      */
+    @Ignore("Test is ignored for regular Junit testing. It should be executed when any change is performed in this package.")
     @Test
     public void testDeletedConfigAtStart() throws IOException {
         deleteCapabilityFile();
@@ -137,6 +152,7 @@ public class CapabilityManagerTest extends CapabilityTest {
     /**
      * Test handling of deleted config file during execution
      */
+    @Ignore("Test is ignored for regular Junit testing. It should be executed when any change is performed in this package.")
     @Test
     public void testDeletedConfigMidExecution() throws IOException {
         assertEquals(true, capabilityManager.getBoolean(CapabilityBooleanKey.ALLERGY_STATUS));
@@ -152,6 +168,7 @@ public class CapabilityManagerTest extends CapabilityTest {
     /**
      * Test handling of misplaced config file at start
      */
+    @Ignore("Test is ignored for regular Junit testing. It should be executed when any change is performed in this package.")
     @Test
     public void testMisplacedConfigAtStart() throws IOException {
         moveCapabilityToTempDir();
@@ -169,6 +186,7 @@ public class CapabilityManagerTest extends CapabilityTest {
     /**
      * Test handling of misplaced config file during execution
      */
+    @Ignore("Test is ignored for regular Junit testing. It should be executed when any change is performed in this package.")
     @Test
     public void testMisplacedConfigMidExecution() throws IOException {
         assertEquals(true, capabilityManager.getBoolean(CapabilityBooleanKey.ALLERGY_STATUS));

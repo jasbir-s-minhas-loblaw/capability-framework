@@ -1,51 +1,52 @@
 package com.sdm.hw.common.capability;
 
-import com.sdm.hw.common.capability.persistence.entity.StorePreference;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.junit.Assert.assertEquals;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+/**
+ * This is JUnit test class
+ *
+ * @author Jasbir Minhas
+ * @version 1.0
+ * @since 2018-01-21
+ */
 
-import static org.junit.Assert.*;
-
+//Load Spring context
+//@ContextConfiguration(locations = {"classpath:/ApplicationContext.xml"})
+//@RunWith(SpringJUnit4ClassRunner.class)
 public class ProvinceProviderTest {
 
 
-
-    ProvinceProvider provinceProvider = ProvinceProvider.getInstance();
+    private ProvinceProvider  provinceProvider = ProvinceProvider.getInstance();
 
     @Before
-    public void setUp() throws Exception {
-
+    public void setUp() {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test
-    public void getInstance() throws Exception {
+    public void getInstance() {
         ProvinceProvider provinceProvider2 = ProvinceProvider.getInstance();
         assertEquals(provinceProvider, provinceProvider2);
     }
-
     @Test
-    public void getCurrentProvince() throws Exception {
-
-        TypedQuery<StorePreference> query  = Mockito.mock(TypedQuery.class);
-        EntityManager entityManager = Mockito.mock(EntityManager.class);
-        StorePreference storePreference = new StorePreference();
-        storePreference.setCdsp("STORE_EHR_JURISDICTION");
-        storePreference.setValue("ON");
-        Mockito.when(query.getSingleResult()).thenReturn(storePreference);
-        Mockito.when(entityManager.createQuery(Mockito.anyString(), StorePreference.class)).thenReturn(query);
+    public void getCurrentProvince() {
+        provinceProvider.setCurrentProvince(Province.NEW_BRUNSWICK);
         assertEquals(Province.NEW_BRUNSWICK, provinceProvider.getCurrentProvince());
     }
+
+    @Ignore("Ignored for regular unit testing as it tests Spring->JPA-Hibernate->DB access.\n" +
+            "It should be executed when any code change is performed in this package.")
+    @Test
+    public void getCurrentProvinceFromDB() {
+        assertEquals(Province.NEW_BRUNSWICK, provinceProvider.getCurrentProvince());
+    }
+
 }

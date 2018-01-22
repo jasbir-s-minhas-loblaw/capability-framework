@@ -2,6 +2,8 @@ package com.sdm.hw.common.capability;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * This is JUnit test class for testing CapabilityStringKeyTest classs
  *
@@ -11,11 +13,15 @@ import org.junit.Test;
  */
 
 public class CapabilityStringKeyTest extends CapabilityTest{
-
     @Test
-    public void getString() throws Exception {
+    public void keyTest() {
+        int keyCount = 0;
         for (CapabilityStringKey key : CapabilityStringKey.values()) {
-            buildTestOutput(key, key.getString());
+            key.getString();
+            key.isGroup();
+            keyCount++;
         }
+        // confirm that all keys are accessible
+        assertEquals(CapabilityStringKey.values().length, keyCount);
     }
 }
