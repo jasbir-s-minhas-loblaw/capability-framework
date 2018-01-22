@@ -30,13 +30,13 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>3.2.5.RELEASE</version>
 		</dependency>
-		<dependency>
-			<groupId>com.sdm.hw</groupId>
-			<artifactId>hw-framework-common</artifactId>
-			<version>1.0</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.sdm.hw</groupId>-->
+			<!--<artifactId>hw-framework-common</artifactId>-->
+			<!--<version>1.0</version>-->
+			<!--<type>test-jar</type>-->
+			<!--<scope>test</scope>-->
+		<!--</dependency>-->
 		<!-- JM End Added code -->
 
 		<dependency>
