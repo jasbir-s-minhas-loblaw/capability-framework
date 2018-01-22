@@ -73,7 +73,6 @@ abstract public class CapabilityTest {
         // cleanup/delete files and directories which were created during
         // execution of the this test suite.
         FileUtils.deleteQuietly(new File(tempDirPath));
-        FileUtils.deleteQuietly(capabilityConfig);
     }
 
     @Before
