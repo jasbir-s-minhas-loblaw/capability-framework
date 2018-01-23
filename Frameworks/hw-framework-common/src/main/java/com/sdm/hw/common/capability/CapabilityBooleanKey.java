@@ -162,7 +162,8 @@ public enum CapabilityBooleanKey implements CapabilityKey {
     // End - Code changes for CR 77
     //HW_COPY_PATIENT_CONFIG("HW_COPY_PATIENT_CONFIG"),
     //Eligible For Trial
-    ELIGIBLE_FOR_TRIAL("eHealth.eligibleForTrial");
+    ELIGIBLE_FOR_TRIAL("eHealth.eligibleForTrial"),
+	PROV_DUR_DISPLAY_CONFIG("eHealth.provDurDisplayConfig");
 
 
     /**
