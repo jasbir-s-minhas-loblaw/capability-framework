@@ -2,6 +2,8 @@ package com.sdm.hw.common.capability;
 
 import com.sdm.hw.logging.intf.HwLogger;
 import com.sdm.hw.logging.services.LogManager;
+
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.event.ConfigurationEvent;
 import org.apache.commons.configuration.event.ConfigurationListener;
@@ -61,7 +63,7 @@ public final class CapabilityManager {
         _instance = new CapabilityManager();
     }
 
-    private void initConfig() throws Exception {
+    private void initConfig() throws ConfigurationException{
         clearCache();
 
         ClassLoader cl = ClassLoader.getSystemClassLoader();
