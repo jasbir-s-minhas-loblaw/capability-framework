@@ -11,7 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public final class ProvinceProvider {
 
     private static final HwLogger LOGGER = LogManager.getLogger(CapabilityManager.class);
-    private static ProvinceProvider _instance = new ProvinceProvider();
+    private static ProvinceProvider instance = new ProvinceProvider();
     private Province province;
 
     /**
@@ -21,7 +21,7 @@ public final class ProvinceProvider {
     }
 
     public static ProvinceProvider getInstance() {
-        return _instance;
+        return instance;
     }
 
     private String getProvinceCodeFromDB() {
