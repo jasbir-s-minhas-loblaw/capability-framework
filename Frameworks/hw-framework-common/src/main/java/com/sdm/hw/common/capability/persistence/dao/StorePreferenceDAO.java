@@ -47,15 +47,13 @@ public interface StorePreferenceDAO {
     /**
      * Find all.
      * @return the list
-     * @throws Exception
      */
-    List<StorePreference> findAll() throws Exception;
+    List<StorePreference> findAll();
 
     /**
-     * Find by CDSP.
+     * Find by cdsp.
      * @return the store preference
-     * @throws Exception
      */
-    StorePreference findByCDSP(String CDSP) throws Exception;
+    StorePreference findByCDSP(String cdsp);
 
 }
