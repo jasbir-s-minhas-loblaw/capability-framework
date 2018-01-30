@@ -27,17 +27,17 @@ public class StorePreferenceManagerImpl implements StorePreferenceManager {
     private StorePreferenceDAO storePreferenceDAO;
 
     @Override
-    public List<StorePreference> findAll() throws Exception{
+    public List<StorePreference> findAll(){
         return storePreferenceDAO.findAll();
     }
 
     @Override
-    public StorePreference findByCDSP(String CDSP) throws Exception{
-        return storePreferenceDAO.findByCDSP(CDSP);
+    public StorePreference findByCDSP(String cdsp){
+        return storePreferenceDAO.findByCDSP(cdsp);
     }
 
     @Override
-    public String getProvince() throws Exception {
+    public String getProvince(){
         return storePreferenceDAO.findByCDSP("STORE_EHR_JURISDICTION").getValue();
     }
 

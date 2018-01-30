@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public interface StorePreferenceManager {
-    List<StorePreference> findAll() throws Exception;
-    StorePreference findByCDSP(String CDSP) throws Exception;
-    String getProvince() throws Exception;
+    List<StorePreference> findAll();
+    StorePreference findByCDSP(String cdsp);
+    String getProvince();
 }
