@@ -61,7 +61,6 @@ public class HwBaseAppException
      */
     public HwBaseAppException(final Throwable exp) {
         super(exp);
-        //this.initCause(exp);
     }
 
     /**
