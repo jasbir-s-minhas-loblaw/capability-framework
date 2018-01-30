@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+import static com.sdm.hw.common.capability.CapabilityConstant.EXPRESSION_DELIMITER;
+
 /**
  * This framework class is implemented as a singleton pattern. It is the main class for loading and caching Capability
  * related information used by the application.
@@ -40,7 +42,7 @@ public final class CapabilityManager {
     private static final int CONFIG_RETRY_INTERVAL = 180;
     private static final HwLogger LOGGER = LogManager.getLogger(CapabilityManager.class);
     // Singleton Class initialization
-    private static volatile CapabilityManager _instance = new CapabilityManager();
+    private static volatile CapabilityManager instance = new CapabilityManager();
     // the xmlConfiguration variable should be only used in initConfig() and getConfig() only
     private XMLConfiguration xmlConfiguration = null;
     private CapabilityCache capabilityCache = new CapabilityCache();
@@ -52,15 +54,15 @@ public final class CapabilityManager {
     }
 
     public static synchronized CapabilityManager getInstance() {
-        return _instance;
+        return instance;
     }
 
     /**
      * This method resets CapabilityManager singleton instance
      */
     public static synchronized void reset() {
-        _instance = null;
-        _instance = new CapabilityManager();
+        instance = null;
+        instance = new CapabilityManager();
     }
 
     private void initConfig() throws ConfigurationException{
@@ -135,6 +137,8 @@ public final class CapabilityManager {
                     TimeUnit.SECONDS.sleep(CONFIG_RETRY_INTERVAL);
                 } catch (InterruptedException iex) {
                     LOGGER.logError(ex.getMessage(), iex);
+                    // Restore interrupted state...
+                    Thread.currentThread().interrupt();
                 }
             }
         }
@@ -244,7 +248,7 @@ public final class CapabilityManager {
     private String getGroupXPath(CapabilityKey key) {
         StringBuilder groupXpath = new StringBuilder();
 
-        String[] tokens = key.toString().split(Pattern.quote(CapabilityKey.EXPRESSION_DELIMITOR));
+        String[] tokens = key.toString().split(Pattern.quote(EXPRESSION_DELIMITER));
         int numOfGroups = key.isGroup() ?
                 tokens.length : // the expression contains group only
                 tokens.length - 1; // last one is not a group
@@ -259,7 +263,7 @@ public final class CapabilityManager {
 
     private String getCapabiltyXpath(CapabilityKey key) {
         String curProvinceCode = ProvinceProvider.getInstance().getCurrentProvince().getCode();
-        String[] tokens = key.toString().split(Pattern.quote(CapabilityKey.EXPRESSION_DELIMITOR));
+        String[] tokens = key.toString().split(Pattern.quote(EXPRESSION_DELIMITER));
         String capability = tokens[tokens.length - 1];
         StringBuilder capabilityXPath = new StringBuilder();
         capabilityXPath.append(getGroupXPath(key));
@@ -279,7 +283,7 @@ public final class CapabilityManager {
 
         StringBuilder groupXPath = new StringBuilder();
 
-        String[] tokens = key.toString().split(Pattern.quote(CapabilityKey.EXPRESSION_DELIMITOR));
+        String[] tokens = key.toString().split(Pattern.quote(EXPRESSION_DELIMITER));
         int numOfGroups = key.isGroup() ?
                 tokens.length : // the expression contains group only
                 tokens.length - 1; // last one is not a group
