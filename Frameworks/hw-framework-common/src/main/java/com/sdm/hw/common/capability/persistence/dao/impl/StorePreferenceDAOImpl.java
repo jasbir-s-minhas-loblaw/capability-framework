@@ -24,13 +24,15 @@ public class StorePreferenceDAOImpl implements StorePreferenceDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
+    private static final String QUERY = "from StorePreference sp where sp.cdsp = :CDSP";
+
     /**
      *
      * @return List containing all StorePreference objects
      * @throws Exception
      */
     @Override
-    public List<StorePreference> findAll() throws Exception {
+    public List<StorePreference> findAll() {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<StorePreference> criteriaQuery = builder.createQuery(StorePreference.class);
         Root<StorePreference> root = criteriaQuery.from(StorePreference.class);
@@ -40,15 +42,15 @@ public class StorePreferenceDAOImpl implements StorePreferenceDAO {
 
     /**
      *
-     * @param CDSP
-     * @return
-     * @throws Exception
+     * @param cdsp
+     * @return StorePreference Store Preference
      */
     @Override
-    public StorePreference findByCDSP(String CDSP) throws Exception {
+    public StorePreference findByCDSP(String cdsp) {
         TypedQuery<StorePreference> query =
-                entityManager.createQuery("from StorePreference sp where sp.cdsp = '" + CDSP + "'",
-                        StorePreference.class);
+                entityManager
+                        .createQuery(QUERY, StorePreference.class)
+                        .setParameter("CDSP", cdsp);
         return query.getSingleResult();
     }
 }
