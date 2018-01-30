@@ -30,7 +30,7 @@ public enum Province {
     private static final Map<String, Province> NAME_MAP;
 
     static {
-        NAME_MAP = new HashMap<String, Province>();
+        NAME_MAP = new HashMap<>();
         for (Province province : EnumSet.allOf(Province.class)) {
             NAME_MAP.put(province.code, province);
         }
