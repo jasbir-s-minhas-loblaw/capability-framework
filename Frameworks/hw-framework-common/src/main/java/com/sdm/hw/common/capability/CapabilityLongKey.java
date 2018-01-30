@@ -1,5 +1,7 @@
 package com.sdm.hw.common.capability;
 
+import static com.sdm.hw.common.capability.CapabilityConstant.EXPRESSION_DELIMITER;
+
 /**
  * This enum works with cCapabilityManager class. Following steps should be performed to add a new
  * long capability:
@@ -82,7 +84,7 @@ public enum CapabilityLongKey implements CapabilityKey {
      */
     @Override
     public boolean isGroup() {
-        return capabilityPath.endsWith(EXPRESSION_DELIMITOR);
+        return capabilityPath.endsWith(EXPRESSION_DELIMITER);
     }
 
 

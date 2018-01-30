@@ -1,5 +1,7 @@
 package com.sdm.hw.common.capability;
 
+import static com.sdm.hw.common.capability.CapabilityConstant.EXPRESSION_DELIMITER;
+
 /**
  * This enum works with CapabilityManager class. Following steps should be performed to add a new
  * String capability:
@@ -83,6 +85,6 @@ public enum CapabilityStringKey implements CapabilityKey {
      */
     @Override
     public boolean isGroup() {
-        return capabilityPath.endsWith(EXPRESSION_DELIMITOR);
+        return capabilityPath.endsWith(EXPRESSION_DELIMITER);
     }
 }

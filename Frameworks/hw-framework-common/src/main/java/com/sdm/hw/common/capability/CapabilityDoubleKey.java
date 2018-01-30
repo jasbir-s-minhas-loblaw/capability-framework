@@ -1,5 +1,7 @@
 package com.sdm.hw.common.capability;
 
+import static com.sdm.hw.common.capability.CapabilityConstant.EXPRESSION_DELIMITER;
+
 /**
  * This enum works with CapabilityManager class. Following steps should be performed to add a new
  * double capability:
@@ -78,12 +80,12 @@ public enum CapabilityDoubleKey implements CapabilityKey {
 
     /**
      * This method returns true if this capability is a group
-     * TODO: Due to Java 7 limitation this method can't be implemented in the CapabilityKey interface.
-     * TODO: This method should be moved to CapabilityKey interface and deleted from the CapabilityKey subclasses
+     * Due to Java 7 limitation this method can't be implemented in the CapabilityKey interface.
+     * This method should be moved to CapabilityKey interface and deleted from the CapabilityKey subclasses
      * @return true if the current expression represents a group
      */
     @Override
     public boolean isGroup() {
-        return capabilityPath.endsWith(EXPRESSION_DELIMITOR);
+        return capabilityPath.endsWith(EXPRESSION_DELIMITER);
     }
 }
