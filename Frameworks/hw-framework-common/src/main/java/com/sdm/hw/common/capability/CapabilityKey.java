@@ -11,9 +11,6 @@ package com.sdm.hw.common.capability;
 
 public interface CapabilityKey {
 
-    //The regEx delimiter used in the expression
-    String EXPRESSION_DELIMITOR = ".";
-
     /**
      * indicates if current capability key represents a group or not.
      * @return group Boolean Indicator
