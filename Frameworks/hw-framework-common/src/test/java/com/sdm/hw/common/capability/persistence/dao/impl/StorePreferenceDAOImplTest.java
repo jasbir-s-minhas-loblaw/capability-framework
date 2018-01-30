@@ -96,6 +96,7 @@ public class StorePreferenceDAOImplTest {
     public void findByCDSP() throws Exception {
         // setup mock objects
         given(entityManagerMock.createQuery(anyString(),any(Class.class))).willReturn(typedQueryMock);
+        given(typedQueryMock.setParameter(anyString(), anyString())).willReturn(typedQueryMock);
         given(typedQueryMock.getSingleResult()).willReturn(storePreference);
 
         // assert
